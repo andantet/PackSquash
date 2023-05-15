@@ -17,7 +17,6 @@ use crate::pack_file::passthrough_file::PassthroughFile;
 use crate::pack_file::png_file::PngFile;
 #[cfg(feature = "optifine-support")]
 use crate::pack_file::properties_file::PropertiesFile;
-use crate::pack_file::shader_file::ShaderFile;
 use crate::{
 	config::{compile_pack_file_glob_pattern, CustomFileOptions, FileOptions},
 	RelativePath
@@ -644,16 +643,16 @@ impl PackFileAssetTypeMatches {
 				#[cfg(feature = "optifine-support")]
 				PackFileAssetType::GenericProperties if let Some(FileOptions::PropertiesFileOptions(optimization_settings)) = file_options =>
 					return_pack_file_to_process_data!(PropertiesFile, optimization_settings),
-				PackFileAssetType::VertexShader if let Some(FileOptions::ShaderFileOptions(optimization_settings)) = file_options =>
-					return_pack_file_to_process_data!(ShaderFile, optimization_settings),
-				PackFileAssetType::FragmentShader if let Some(FileOptions::ShaderFileOptions(optimization_settings)) = file_options =>
-					return_pack_file_to_process_data!(ShaderFile, optimization_settings),
-				PackFileAssetType::TranslationUnitSegment if let Some(FileOptions::ShaderFileOptions(optimization_settings)) = file_options =>
-					return_pack_file_to_process_data!(ShaderFile, optimization_settings),
 				PackFileAssetType::LegacyLanguageFile if let Some(FileOptions::LegacyLanguageFileOptions(optimization_settings)) = file_options =>
 					return_pack_file_to_process_data!(LegacyLanguageFile, optimization_settings),
 				PackFileAssetType::CommandFunction if let Some(FileOptions::CommandFunctionFileOptions(optimization_settings)) = file_options =>
 					return_pack_file_to_process_data!(CommandFunctionFile, optimization_settings),
+				PackFileAssetType::VertexShader
+				| PackFileAssetType::FragmentShader
+				| PackFileAssetType::TranslationUnitSegment if let Some(
+					FileOptions::CustomFileOptions(CustomFileOptions { force_include: true, .. })
+				) = file_options =>
+					return_pack_file_to_process_data!(PassthroughFile, ()),
 				PackFileAssetType::TrueTypeFont
 				| PackFileAssetType::FontCharacterSizes
 				| PackFileAssetType::Text
