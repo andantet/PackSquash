@@ -96,7 +96,10 @@ impl<T: AsyncRead + Send + Unpin + 'static> PackFileConstructor<T> for Passthrou
 				optimization_strategy_message: "Copied",
 				is_compressed: true
 			}),
-			PackFileAssetType::Custom => file_read_producer().map(|(read, _)| Self {
+			PackFileAssetType::VertexShader
+				| PackFileAssetType::FragmentShader
+				| PackFileAssetType::TranslationUnitSegment
+				| PackFileAssetType::Custom => file_read_producer().map(|(read, _)| Self {
 				read,
 				optimization_strategy_message: "Copied (custom asset)",
 				is_compressed: false

@@ -38,6 +38,5 @@ zip_spec_conformance_level = 'disregard'
 size_increasing_zip_obfuscation = true
 
 ['assets/minecraft/shaders/include/*']
-minify_shader = false
 force_include = true
 OPTIONS

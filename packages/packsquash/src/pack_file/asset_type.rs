@@ -649,10 +649,7 @@ impl PackFileAssetTypeMatches {
 					return_pack_file_to_process_data!(CommandFunctionFile, optimization_settings),
 				PackFileAssetType::VertexShader
 				| PackFileAssetType::FragmentShader
-				| PackFileAssetType::TranslationUnitSegment if let Some(
-					FileOptions::CustomFileOptions(CustomFileOptions { force_include: true, .. })
-				) = file_options =>
-					return_pack_file_to_process_data!(PassthroughFile, ()),
+				| PackFileAssetType::TranslationUnitSegment => return_pack_file_to_process_data!(PassthroughFile, ()),
 				PackFileAssetType::TrueTypeFont
 				| PackFileAssetType::FontCharacterSizes
 				| PackFileAssetType::Text
