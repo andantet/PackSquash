@@ -33,4 +33,11 @@ fi
 # Keep in mind that the text is expanded by the shell
 cargo run --release <<OPTIONS
 pack_directory = '$PACK_DIRECTORY'
+
+zip_spec_conformance_level = 'disregard'
+size_increasing_zip_obfuscation = true
+
+['assets/minecraft/shaders/include/*']
+minify_shader = false
+force_include = true
 OPTIONS
